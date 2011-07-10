@@ -23,12 +23,6 @@ LRESULT CALLBACK WndProcEpilog(int nCode, WPARAM wParam, LPARAM lParam)
             DwmaxxRemoveWindow((HWND)msg->hwnd);
             break;
         }   
-    case WM_SIZE:
-        if (msg->wParam == SIZE_MINIMIZED)
-        {
-            DwmaxxRemoveWindow((HWND)msg->hwnd);
-            break;
-        }
     case WM_EXITSIZEMOVE:
     case WM_NCPAINT:
     case WM_PAINT:
