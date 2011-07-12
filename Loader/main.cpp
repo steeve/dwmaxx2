@@ -9,12 +9,6 @@
 
 int main(int argc, char **argv)
 {
-    int a = sizeof(FARPROC);
-
-    intptr_t b = (intptr_t)1 + (intptr_t)2;
-
     DwmaxxLoad();
-
-
     return (0);
 }
