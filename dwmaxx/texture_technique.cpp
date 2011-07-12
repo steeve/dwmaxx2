@@ -2,9 +2,8 @@
 #include "globals.h"
 #include "hooking.h"
 #include "ID3D10Device1.h"
-#include "..\\dwmaxx_watermarking\\constants.h"
 
-HOOK_GET_ORIGINAL_PROC(ID3D10Device1, CreateTexture2D);
+DX_HOOK_GET_ORIGINAL_PROC(ID3D10Device1, CreateTexture2D);
 
 void ReadPixel(ID3D10Device1 *device, ID3D10Texture2D *pTexture, int x, int y, DWMWindowPixel *pixel)
 {

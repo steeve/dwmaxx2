@@ -1,5 +1,4 @@
 #pragma once
-
 #include <Windows.h>
 #include <d3d10_1.h>
 #include <D3DX10.h>

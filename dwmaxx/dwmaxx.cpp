@@ -1,53 +1,48 @@
 #include <Windows.h>
 #include <dwmapi.h>
+#include <Shlwapi.h>
+#include <stdio.h>
 #include "globals.h"
 #include "constants.h"
 #include "dwmaxx.h"
+#include "dwmaxx_private.h"
 #include "injection.h"
 #include "win_hooks.h"
+#include "watermarking.h"
+#include "hooking.h"
+#include "rpc_hwnd.h"
 
 #pragma comment (lib, "dwmapi.lib")
 
-BOOL DwmaxxLoad()
+HRESULT DwmaxxLoad()
 {
-    if (DwmaxxIsInjected() == true)
-        return (FALSE);
+    HRESULT hr = E_FAIL;
+    if (DwmaxxIsInjected() == TRUE)
+        return (E_FAIL);
 
-    if (DwmaxxInject() == false)
-        return (FALSE);
-
-    DwmaxxInstallHooks();
+    hr = DwmaxxInject();
+    if (FAILED(hr))
+        return (hr);
 
     // Now restart composition to get a new D3D device
     DwmEnableComposition(DWM_EC_DISABLECOMPOSITION);
     DwmEnableComposition(DWM_EC_ENABLECOMPOSITION);
 
-    return (TRUE);
+    return (hr);
 }
 
-BOOL	DwmaxxUnload2()
+HRESULT DwmaxxUnload()
 {
-    //PostMessage(DwmaxxRpcWindow(), DWMAXX_UNLOAD, NULL, NULL);
-    return (TRUE);
+    if (DwmaxxIsLoaded() == FALSE)
+        return (E_FAIL);
+    HWND hw = DwmaxxRpcWindow();
+    SendMessage(DwmaxxRpcWindow(), DWMAXX_UNLOAD, NULL, NULL);
+    return (S_OK);
 }
 
-void    DwmaxxInstallHooks()
+BOOL    DwmaxxIsLoaded()
 {
-    g_wndProcHook = SetWindowsHookEx(WH_CALLWNDPROC, WndProcProlog, g_hInstance, 0);
-    g_wndProcRetHook = SetWindowsHookEx(WH_CALLWNDPROCRET, WndProcEpilog, g_hInstance, 0);
-    g_shellHook = SetWindowsHookEx(WH_SHELL, ShellProcProlog, g_hInstance, 0);
-}
-
-void    DwmaxxRemoveHooks()
-{
-    UnhookWindowsHookEx(g_wndProcHook);
-    UnhookWindowsHookEx(g_wndProcRetHook);
-    UnhookWindowsHookEx(g_shellHook);
-}
-
-HWND    DwmaxxRpcWindow()
-{
-    return (FindWindowEx(HWND_MESSAGE, NULL, DWMAXX_RPC_WINDOW_CLASS, NULL));
+    return (DwmaxxIsInjected());
 }
 
 HANDLE  DwmaxxGetWindowSharedHandle(HWND hWnd)

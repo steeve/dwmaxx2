@@ -24,9 +24,19 @@
     extern type##_##name##_PROC __##type##_##name; \
     __##type##_##name = (type##_##name##_PROC)HookVTableProc((FARPROC *)&((pObject)->lpVtbl->##name), (FARPROC) type##_##name);
 
-#define HOOK_GET_ORIGINAL_PROC(type, name) \
+#define DX_HOOK_GET_ORIGINAL_PROC(type, name) \
     extern type##_##name##_PROC __##type##_##name;
 
+#define HOOK_GET_ORIGINAL_PROC(name) \
+    extern name##_PROC __##name;
+
+#define IAT_UNHOOK(imageName, importImageName, importName) \
+    IATPatchSub(imageName, importImageName, #importName, (FARPROC)__##importName); \
+    __##importName = NULL;
+
+#define DX_METHOD_UNHOOK(pObject, type, name) \
+    HookVTableProc((FARPROC *)&((pObject)->lpVtbl->##name), (FARPROC)__##type##_##name); \
+    __##type##_##name = NULL;
 
 FARPROC HookVTableProc(FARPROC *vtableproc, FARPROC newfunc);
 FARPROC IATPatchSub(char *imageName, char *importImageName, char *importName, FARPROC newProc);

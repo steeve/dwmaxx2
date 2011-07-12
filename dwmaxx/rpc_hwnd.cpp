@@ -4,8 +4,9 @@
 #include "rpc_hwnd.h"
 #include "types.h"
 #include "globals.h"
+#include "dwmaxx_private.h"
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK RpcWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
     {
@@ -29,7 +30,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         }
         break;
     case DWMAXX_UNLOAD:
-        
+        DwmaxxTerminate();
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -43,7 +44,7 @@ DWORD WINAPI CreateRpcWindow(LPVOID lpParameter)
 {
     WNDCLASS wc;
     ZeroMemory(&wc, sizeof(wc));
-    wc.lpfnWndProc = (WNDPROC)WndProc;
+    wc.lpfnWndProc = (WNDPROC)RpcWndProc;
     wc.lpszClassName = DWMAXX_RPC_WINDOW_CLASS;
     RegisterClass(&wc);
 

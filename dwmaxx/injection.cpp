@@ -4,11 +4,10 @@
 #include "injection.h"
 #include "hooking.h"
 #include "dwmaxx.h"
+#include "dwmaxx_private.h"
 #include "D3D10CreateDevice1.h"
-
-#include <stdio.h>
-#include <io.h>
-#include <fcntl.h>
+#include "watermarking.h"
+#include "globals.h"
 
 #pragma warning( push )
 #pragma warning( disable : 4311 4312 )
@@ -47,18 +46,18 @@ HMODULE	RemoteGetModuleHandle(DWORD dwPID, LPCTSTR szDllName)
 	return (NULL);
 }
 
-bool	DwmaxxIsRunningInsideDWM()
+BOOL    DwmaxxIsRunningInsideDWM()
 {
-	return (GetModuleHandle("dwm.exe") != NULL);
+    return (GetModuleHandle("dwm.exe") == GetModuleHandle(NULL));
 }
 
-bool	DwmaxxIsInjected()
+BOOL    DwmaxxIsInjected()
 {
 	DWORD	dwmPid = NULL;
 	HWND	hDwmWindow = NULL;
 	TCHAR	modulePath[512];
 
-	if (GetModuleFileName(GetModuleHandle(DLL_NAME), modulePath, sizeof(modulePath)) == 0)
+	if (GetModuleFileName(g_hInstance, modulePath, sizeof(modulePath)) == 0)
 		return (false);
 
 	if ((hDwmWindow = FindWindow(DWM_CLASS_NAME, NULL)) == NULL)
@@ -70,7 +69,7 @@ bool	DwmaxxIsInjected()
 	return (RemoteGetModuleHandle(dwmPid, modulePath) != NULL);
 }
 
-bool	DwmaxxInject()
+HRESULT	DwmaxxInject()
 {
 	DWORD	dwmPid = NULL;
 	HWND	hDwmWindow = NULL;
@@ -78,28 +77,29 @@ bool	DwmaxxInject()
 	TCHAR	modulePath[512];
 	bool	result = false;
 
-	if (GetModuleFileName(GetModuleHandle(DLL_NAME), modulePath, sizeof(modulePath)) == 0)
-		return (false);
+	if (GetModuleFileName(g_hInstance, modulePath, sizeof(modulePath)) == 0)
+        return (HRESULT_FROM_WIN32(GetLastError()));
 
-	unsigned int		dllNameSizeInBytes = (strlen(modulePath) + 1) * sizeof(char);
+	unsigned int		dllNameSizeInBytes = strlen(modulePath);
 	void	*LoadLibraryAddress = (void *)GetProcAddress(GetModuleHandle("kernel32.dll"), LOAD_LIBRARY_EXPORT);
 	if (LoadLibraryAddress == NULL)
-		return (false);
+		return (HRESULT_FROM_WIN32(GetLastError()));
 
 	if ((hDwmWindow = FindWindow(DWM_CLASS_NAME, NULL)) == NULL)
-		return (false);
+		return (HRESULT_FROM_WIN32(GetLastError()));
 
 	if (GetWindowThreadProcessId(hDwmWindow, &dwmPid) == 0)
-		return (false);
+		return (HRESULT_FROM_WIN32(GetLastError()));
 
 	if ((hDwmProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwmPid)) == NULL)
-		return (false);
+		return (HRESULT_FROM_WIN32(GetLastError()));
 
-	TCHAR	*remoteDllName = (TCHAR *)VirtualAllocEx(hDwmProcess, NULL, dllNameSizeInBytes, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+	char    *remoteDllName = (char *)VirtualAllocEx(hDwmProcess, NULL, dllNameSizeInBytes, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 	if (remoteDllName == NULL)
 	{
+        HRESULT hr = HRESULT_FROM_WIN32(GetLastError());
 		CloseHandle(hDwmProcess);
-		return (false);
+		return (hr);
 	}
 
 	if (WriteProcessMemory(hDwmProcess, (LPVOID)remoteDllName, (LPCVOID)modulePath, dllNameSizeInBytes, NULL) == TRUE)
@@ -108,28 +108,34 @@ bool	DwmaxxInject()
 		if (remoteThreadHandle != NULL)
 		{
 			WaitForSingleObject(remoteThreadHandle, INFINITE);
-			result = true;
+			result = S_OK;
 		}
+        else
+            return (HRESULT_FROM_WIN32(GetLastError()));
 	}
+    else
+        return (HRESULT_FROM_WIN32(GetLastError()));
 
 	VirtualFreeEx(hDwmProcess, remoteDllName, dllNameSizeInBytes, MEM_DECOMMIT);
 
 	HMODULE hRemoteModule = RemoteGetModuleHandle(dwmPid, modulePath);
 
-	FARPROC	remoteDWMaxxStart = (FARPROC)((intptr_t)hRemoteModule + ((intptr_t)DwmaxxThreadStart - (intptr_t)GetModuleHandle(DLL_NAME)));
+	FARPROC	remoteDWMaxxStart = (FARPROC)((intptr_t)hRemoteModule + ((intptr_t)DwmaxxThreadStart - (intptr_t)g_hInstance));
 	HANDLE	remoteThreadHandle = CreateRemoteThread(hDwmProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)remoteDWMaxxStart, NULL, NULL, NULL);
 	if (remoteThreadHandle != NULL)
 	{
 		WaitForSingleObject(remoteThreadHandle, INFINITE);
-		result = true;
+		result = S_OK;
 	}
+    else
+        return (HRESULT_FROM_WIN32(GetLastError()));
 
 	CloseHandle(hDwmProcess);
 
 	return (result);
 }
 
-bool	DwmaxxUnload()
+HRESULT DwmaxxRemoteUnload()
 {
 	DWORD	dwmPid = NULL;
 	HWND	hDwmWindow = NULL;
@@ -137,23 +143,23 @@ bool	DwmaxxUnload()
 	HANDLE	hDwmProcess = NULL;
 	HMODULE	hRemoteModule = NULL;
 
-	if (GetModuleFileName(GetModuleHandle(DLL_NAME), modulePath, sizeof(modulePath)) == 0)
-		return (false);
+	if (GetModuleFileName(g_hInstance, modulePath, sizeof(modulePath)) == 0)
+		return (HRESULT_FROM_WIN32(GetLastError()));
 
 	if ((hDwmWindow = FindWindow(DWM_CLASS_NAME, NULL)) == NULL)
-		return (false);
+		return (HRESULT_FROM_WIN32(GetLastError()));
 
 	if (GetWindowThreadProcessId(hDwmWindow, &dwmPid) == 0)
-		return (false);
+		return (HRESULT_FROM_WIN32(GetLastError()));
 
 	hRemoteModule = RemoteGetModuleHandle(dwmPid, modulePath);
 
 	void	*FreeLibraryAddress = (void *)GetProcAddress(GetModuleHandle("kernel32.dll"), FREE_LIBRARY_EXPORT);
 	if (FreeLibraryAddress == NULL)
-		return (false);
+		return (HRESULT_FROM_WIN32(GetLastError()));
 
 	if ((hDwmProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwmPid)) == NULL)
-		return (false);
+		return (HRESULT_FROM_WIN32(GetLastError()));
 
 	DWORD	threadRetValue = FALSE;
 	do
@@ -166,25 +172,9 @@ bool	DwmaxxUnload()
 
 	CloseHandle(hDwmProcess);
 
-	return (RemoteGetModuleHandle(dwmPid, modulePath) == NULL);
-}
-
-void	DwmaxxThreadStart()
-{
-    if (DwmaxxIsRunningInsideDWM() == true)
-    {
-        // Start the hooking dance!
-        AllocConsole();
-
-            int hCrt, i;
-            FILE *hf;
-            hCrt = _open_osfhandle((long) GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
-            hf = _fdopen(hCrt, "w");
-            *stdout = *hf;
-            i = setvbuf(stdout, NULL, _IONBF, 0); 
-
-        IAT_HOOK("dwmcore.dll", "d3d10_1.dll", D3D10CreateDevice1);
-    }
+    if (RemoteGetModuleHandle(dwmPid, modulePath) == NULL)
+        return (S_OK);
+    return (E_FAIL);
 }
 
 #pragma warning( pop )

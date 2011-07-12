@@ -1,10 +1,9 @@
 #include <windows.h>
 #include <stdio.h>
-
-#define CINTERFACE
 #include <d3d10_1.h>
 #include "globals.h"
 #include "hooking.h"
+#include "d3d_hooks.h"
 #include "D3D10CreateDevice1.h"
 #include "ID3D10Device1.h"
 #include "rpc_hwnd.h"
@@ -22,14 +21,7 @@ HOOK(HRESULT, D3D10CreateDevice1, IDXGIAdapter *pAdapter,
 #ifdef _DEBUG
     printf("New D3D device! Patching...\n");
 #endif
-
-    DX_METHOD_HOOK(*ppDevice, ID3D10Device1, Draw);
-    DX_METHOD_HOOK(*ppDevice, ID3D10Device1, CreateInputLayout);
-    DX_METHOD_HOOK(*ppDevice, ID3D10Device1, CreateTexture2D);
-
-    if (g_rpcHwnd == NULL)
-        CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)CreateRpcWindow, NULL, 0, NULL);
-
+    ApplyD3DHooks(*ppDevice);
 #ifdef _DEBUG
     printf("Patching done!\n");
 #endif

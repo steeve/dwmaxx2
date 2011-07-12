@@ -1,9 +1,11 @@
 #pragma once
-
-#include "..\dwmaxx_d3d10_1\rpc_hwnd.h"
-
-#define ORIGNAL_D3D10   ("d3d10_1_original.dll")
 #define DWM_MODULE      ("dwm.exe")
+
+#ifdef _WIN64
+#define DWMAXX_WATERMARKER_CLASS    ("DwmaxxWatermarker64")
+#else
+#define DWMAXX_WATERMARKER_CLASS    ("DwmaxxWatermarker32")
+#endif
 
 // {BDC90ECB-C437-41CD-B258-5607E14F7FDE}
 static const GUID WatermarkGuid = 

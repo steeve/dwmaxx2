@@ -10,5 +10,6 @@
 int main(int argc, char **argv)
 {
     DwmaxxLoad();
+    DwmaxxUnload();
     return (0);
 }
