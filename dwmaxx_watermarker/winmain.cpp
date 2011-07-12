@@ -1,22 +1,22 @@
 #include <Windows.h>
 #include <dwmapi.h>
-#include "..\\dwmaxx_watermarking\\watermarker.h"
+#include "..\\dwmaxx\\dwmaxx.h"
 
 #pragma comment (lib, "dwmapi.lib")
 
 #ifdef _WIN64
     #define DWMAXX_WATERMARKER_CLASS     ("DwmaxxWatermarker64")
     #ifdef _DEBUG
-        #pragma comment(lib, "..\\x64\\Debug\\dwmaxx_watermarking64.lib")
+        #pragma comment(lib, "..\\x64\\Debug\\dwmaxx64.lib")
     #else
-        #pragma comment(lib, "..\\x64\\Release\\dwmaxx_watermarking64.lib")
+        #pragma comment(lib, "..\\x64\\Release\\dwmaxx64.lib")
     #endif
 #else
     #define DWMAXX_WATERMARKER_CLASS     ("DwmaxxWatermarker32")
     #ifdef _DEBUG
-        #pragma comment(lib, "..\\Debug\\dwmaxx_watermarking32.lib")
+        #pragma comment(lib, "..\\Debug\\dwmaxx32.lib")
     #else
-        #pragma comment(lib, "..\\Release\\dwmaxx_watermarking32.lib")
+        #pragma comment(lib, "..\\Release\\dwmaxx32.lib")
     #endif
 #endif
 

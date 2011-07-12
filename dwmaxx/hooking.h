@@ -8,6 +8,10 @@
     name##_PROC __##name = NULL; \
     result WINAPI name( __VA_ARGS__ )
 
+#define IAT_HOOK(imageName, importImageName, importName) \
+    extern importName##_PROC __##importName; \
+    __##importName = (importName##_PROC)IATPatchSub(imageName, importImageName, #importName, (FARPROC)importName);
+
 #define DEFINE_METHOD_HOOK(result, type, name, ...) \
     typedef result ( WINAPI * ##type##_##name##_PROC )( type *This, __VA_ARGS__ ); \
     result WINAPI type##_##name( type *This, __VA_ARGS__ );
@@ -25,3 +29,4 @@
 
 
 FARPROC HookVTableProc(FARPROC *vtableproc, FARPROC newfunc);
+FARPROC IATPatchSub(char *imageName, char *importImageName, char *importName, FARPROC newProc);

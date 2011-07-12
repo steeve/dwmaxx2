@@ -17,9 +17,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dwmaxx_d3d10_1", "dwmaxx_d3d10_1\dwmaxx_d3d10_1.vcxproj", "{F9B25ACA-E581-4B94-A518-83565BB89629}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dwmaxx_watermarker", "dwmaxx_watermarker\dwmaxx_watermarker.vcxproj", "{C82A135F-61C3-4FC9-9723-0E5220E8CAF9}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E3DB0A98-FE0E-4DCB-B10C-E30EDCA64AD2} = {E3DB0A98-FE0E-4DCB-B10C-E30EDCA64AD2}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,13 +76,11 @@ Global
 		{E3DB0A98-FE0E-4DCB-B10C-E30EDCA64AD2}.Release|x64.Build.0 = Release|x64
 		{F9B25ACA-E581-4B94-A518-83565BB89629}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F9B25ACA-E581-4B94-A518-83565BB89629}.Debug|x64.ActiveCfg = Debug|x64
-		{F9B25ACA-E581-4B94-A518-83565BB89629}.Debug|x64.Build.0 = Debug|x64
 		{F9B25ACA-E581-4B94-A518-83565BB89629}.Profile|Win32.ActiveCfg = Release|Win32
 		{F9B25ACA-E581-4B94-A518-83565BB89629}.Profile|Win32.Build.0 = Release|Win32
 		{F9B25ACA-E581-4B94-A518-83565BB89629}.Profile|x64.ActiveCfg = Release|Win32
 		{F9B25ACA-E581-4B94-A518-83565BB89629}.Release|Win32.ActiveCfg = Release|Win32
 		{F9B25ACA-E581-4B94-A518-83565BB89629}.Release|x64.ActiveCfg = Release|x64
-		{F9B25ACA-E581-4B94-A518-83565BB89629}.Release|x64.Build.0 = Release|x64
 		{C82A135F-61C3-4FC9-9723-0E5220E8CAF9}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C82A135F-61C3-4FC9-9723-0E5220E8CAF9}.Debug|Win32.Build.0 = Debug|Win32
 		{C82A135F-61C3-4FC9-9723-0E5220E8CAF9}.Debug|x64.ActiveCfg = Debug|x64

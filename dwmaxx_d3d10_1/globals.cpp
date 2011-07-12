@@ -7,3 +7,4 @@ std::map<ID3D10InputLayout *, int>  g_inputLayouts;
 std::map<HWND, HANDLE>              g_sharedHandles;
 HWND                                g_rpcHwnd = NULL;
 ID3D10Texture2D                     *g_pixelTexture = NULL;
+ISTOPLEVELWINDOW_PROC               IsTopLevelWindow = (ISTOPLEVELWINDOW_PROC)GetProcAddress(GetModuleHandle("user32.dll"), "IsTopLevelWindow");

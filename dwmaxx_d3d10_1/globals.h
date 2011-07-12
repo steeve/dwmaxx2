@@ -9,3 +9,4 @@ extern std::map<ID3D10InputLayout *, int>   g_inputLayouts;
 extern std::map<HWND, HANDLE>               g_sharedHandles;
 extern HWND                                 g_rpcHwnd;
 extern ID3D10Texture2D                      *g_pixelTexture;
+extern ISTOPLEVELWINDOW_PROC                IsTopLevelWindow;

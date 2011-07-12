@@ -90,7 +90,7 @@ technique10 Render
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_4_0, PS() ) );
 
-		//SetBlendState( SrcAlphaBlendingAdd, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+		SetBlendState( SrcAlphaBlendingAdd, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
     }
 }
 

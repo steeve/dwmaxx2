@@ -1,17 +1,17 @@
 #include <Windows.h>
 #include "globals.h"
-#include "watermarker.h"
-#include "..\\dwmaxx\\dwmaxx.h"
+#include "watermarking.h"
+#include "dwmaxx.h"
 
 LRESULT CALLBACK WndProcProlog(int nCode, WPARAM wParam, LPARAM lParam)
 {
     CWPSTRUCT       *msg = (CWPSTRUCT *)lParam;
 
-    if (IsTopLevelWindow(msg->hwnd) == TRUE)
+    //if (IsTopLevelWindow(msg->hwnd) == TRUE)
     switch (msg->message)
     {
     case WM_SHOWWINDOW:
-        if ((BOOL)msg->wParam == FALSE && IsTopLevelWindow(msg->hwnd))
+        if ((BOOL)msg->wParam == FALSE /*&& IsTopLevelWindow(msg->hwnd)*/)
             DwmaxxRemoveWindow((HWND)msg->hwnd);
         else if (IsWindowVisible(msg->hwnd))
             WriteWatermark(msg->hwnd);
@@ -39,7 +39,7 @@ LRESULT CALLBACK WndProcEpilog(int nCode, WPARAM wParam, LPARAM lParam)
     {
     case WM_NCPAINT:
     case WM_PAINT:
-        if (IsTopLevelWindow(msg->hwnd) == TRUE && IsWindowVisible(msg->hwnd) == TRUE)
+        if (/*IsTopLevelWindow(msg->hwnd) == TRUE &&*/ IsWindowVisible(msg->hwnd) == TRUE)
             WriteWatermark(msg->hwnd);
         break;
     }
@@ -53,11 +53,11 @@ LRESULT CALLBACK ShellProcProlog(int nCode, WPARAM wParam, LPARAM lParam)
     {
     case HSHELL_WINDOWREPLACED:
     case HSHELL_WINDOWCREATED:
-        if (IsTopLevelWindow((HWND)wParam) == TRUE && IsWindowVisible((HWND)wParam) == TRUE)
+        if (/*IsTopLevelWindow((HWND)wParam) == TRUE &&*/ IsWindowVisible((HWND)wParam) == TRUE)
             WriteWatermark((HWND)wParam);
         break;
     case HSHELL_WINDOWDESTROYED:
-        if (IsTopLevelWindow((HWND)wParam) == TRUE)
+        if (/*IsTopLevelWindow((HWND)wParam) ==*/ TRUE)
             DwmaxxRemoveWindow((HWND)wParam);
         break;
     }

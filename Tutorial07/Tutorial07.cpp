@@ -392,7 +392,7 @@ HRESULT InitDevice()
     HWND win = NULL;
     do
     {
-        win = FindWindowEx(NULL, win, "CabinetWClass", NULL);
+        win = FindWindowEx(NULL, win, "Chrome_WidgetWin_0", NULL);
     } while (GetWindowTextLength(win) == 0);
 
     texHandle = DwmaxxGetWindowSharedHandle((HWND)win);

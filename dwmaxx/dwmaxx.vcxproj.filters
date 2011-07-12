@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Hooks">
+      <UniqueIdentifier>{c6555d8b-6a4b-477d-9b77-6aeaf6d87f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks\ID3D10Device1">
+      <UniqueIdentifier>{987f9ae4-0be6-4a17-a6ce-75e24fbcf93c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -21,7 +27,40 @@
     <ClCompile Include="globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dwmex.cpp">
+    <ClCompile Include="dwmaxx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hooking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D10CreateDevice1.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="ID3D10Device1_Draw.cpp">
+      <Filter>Hooks\ID3D10Device1</Filter>
+    </ClCompile>
+    <ClCompile Include="ID3D10Device1_CreateInputLayout.cpp">
+      <Filter>Hooks\ID3D10Device1</Filter>
+    </ClCompile>
+    <ClCompile Include="ID3D10Device1_CreateTexture2D.cpp">
+      <Filter>Hooks\ID3D10Device1</Filter>
+    </ClCompile>
+    <ClCompile Include="rpc_hwnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="texture_technique.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vertices_technique.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="injection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="watermarking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="win_hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,8 +71,43 @@
     <ClInclude Include="constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dwmex.h">
+    <ClInclude Include="dwmaxx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="injection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hooking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3D10CreateDevice1.h">
+      <Filter>Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="ID3D10Device1.h">
+      <Filter>Hooks\ID3D10Device1</Filter>
+    </ClInclude>
+    <ClInclude Include="rpc_hwnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="texture_technique.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vertices_technique.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="watermarking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="win_hooks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dwmaxx.def">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
