@@ -9,7 +9,8 @@
 
 int main(int argc, char **argv)
 {
-    DwmaxxLoad();
+    if (DwmaxxIsLoaded() == FALSE)
+        DwmaxxLoad();
     DwmaxxUnload();
     return (0);
 }
