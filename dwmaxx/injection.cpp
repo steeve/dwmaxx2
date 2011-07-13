@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <tlhelp32.h>
 #include <conio.h>
+#include <Shlwapi.h>
 #include "injection.h"
 #include "hooking.h"
 #include "dwmaxx.h"
@@ -56,15 +57,22 @@ BOOL    DwmaxxIsInjected()
 	DWORD	dwmPid = NULL;
 	HWND	hDwmWindow = NULL;
 	TCHAR	modulePath[512];
+    BOOL    isWow64 = FALSE;
 
-	if (GetModuleFileName(g_hInstance, modulePath, sizeof(modulePath)) == 0)
-		return (false);
+    if ((hDwmWindow = FindWindow(DWM_CLASS_NAME, NULL)) == NULL)
+        return (false);
 
-	if ((hDwmWindow = FindWindow(DWM_CLASS_NAME, NULL)) == NULL)
-		return (false);
+    if (GetWindowThreadProcessId(hDwmWindow, &dwmPid) == 0)
+        return (false);
 
-	if (GetWindowThreadProcessId(hDwmWindow, &dwmPid) == 0)
-		return (false);
+    GetModuleFileName(g_hInstance, modulePath, sizeof(modulePath));
+    
+    IsWow64Process(GetCurrentProcess(), &isWow64);
+    if (isWow64 == TRUE)
+    {
+        PathRemoveFileSpec(modulePath);
+        sprintf(modulePath, "%s\\dwmaxx64.dll", modulePath);
+    }
 
 	return (RemoteGetModuleHandle(dwmPid, modulePath) != NULL);
 }

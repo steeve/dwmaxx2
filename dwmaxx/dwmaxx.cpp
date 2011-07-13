@@ -17,10 +17,32 @@
 HRESULT DwmaxxLoad()
 {
     HRESULT hr = E_FAIL;
-    if (DwmaxxIsInjected() == TRUE)
+    if (DwmaxxIsLoaded() == TRUE)
         return (E_FAIL);
 
-    hr = DwmaxxInject();
+    BOOL    isWow64 = FALSE;
+    IsWow64Process(GetCurrentProcess(), &isWow64);
+    if (isWow64 == TRUE)
+    {
+        char    currentDir[MAX_PATH];
+        char    systemDir[MAX_PATH];
+        char    fullPath[MAX_PATH];
+        PROCESS_INFORMATION pi;
+        STARTUPINFO         si;
+        GetModuleFileName(g_hInstance, currentDir, sizeof(fullPath));
+        PathRemoveFileSpec(currentDir);
+        GetSystemDirectory(systemDir, sizeof(systemDir));
+        sprintf(fullPath, "%s\\rundll32.exe %s\\dwmaxx64.dll,DwmaxxInject", systemDir, currentDir);
+        ZeroMemory(&si, sizeof(si));
+        ZeroMemory(&pi, sizeof(pi));
+        si.cb = sizeof(si);
+        CreateProcess(NULL, fullPath, NULL, NULL, NULL, NULL, NULL, NULL, &si, &pi);
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        hr = S_OK;
+    }
+    else
+        hr = DwmaxxInject();
+
     if (FAILED(hr))
         return (hr);
 
@@ -42,6 +64,10 @@ HRESULT DwmaxxUnload()
 
 BOOL    DwmaxxIsLoaded()
 {
+    BOOL    isWow64 = FALSE;
+    IsWow64Process(GetCurrentProcess(), &isWow64);
+    if (isWow64 == TRUE)
+        return (DwmaxxRpcWindow() != NULL);
     return (DwmaxxIsInjected());
 }
 
