@@ -38,7 +38,10 @@ HRESULT DwmaxxLoad()
         si.cb = sizeof(si);
         CreateProcess(NULL, fullPath, NULL, NULL, NULL, NULL, NULL, NULL, &si, &pi);
         WaitForSingleObject(pi.hProcess, INFINITE);
-        hr = S_OK;
+        if (DwmaxxIsLoaded() == FALSE)
+            hr = E_FAIL;
+        else
+            hr = S_OK;
     }
     else
         hr = DwmaxxInject();
