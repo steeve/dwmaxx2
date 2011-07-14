@@ -16,8 +16,14 @@
     <Filter Include="Hooks">
       <UniqueIdentifier>{c6555d8b-6a4b-477d-9b77-6aeaf6d87f59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Hooks\ID3D10Device1">
+    <Filter Include="Hooks\d3d10_1">
+      <UniqueIdentifier>{ed809e50-2ed1-4181-a8fd-f99d0ee1f1e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks\d3d10_1\ID3D10Device1">
       <UniqueIdentifier>{987f9ae4-0be6-4a17-a6ce-75e24fbcf93c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks\dwmapi">
+      <UniqueIdentifier>{a97232f3-9ed8-4e73-954e-a006cb22144e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,17 +39,14 @@
     <ClCompile Include="hooking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D3D10CreateDevice1.cpp">
-      <Filter>Hooks</Filter>
-    </ClCompile>
     <ClCompile Include="ID3D10Device1_Draw.cpp">
-      <Filter>Hooks\ID3D10Device1</Filter>
+      <Filter>Hooks\d3d10_1\ID3D10Device1</Filter>
     </ClCompile>
     <ClCompile Include="ID3D10Device1_CreateInputLayout.cpp">
-      <Filter>Hooks\ID3D10Device1</Filter>
+      <Filter>Hooks\d3d10_1\ID3D10Device1</Filter>
     </ClCompile>
     <ClCompile Include="ID3D10Device1_CreateTexture2D.cpp">
-      <Filter>Hooks\ID3D10Device1</Filter>
+      <Filter>Hooks\d3d10_1\ID3D10Device1</Filter>
     </ClCompile>
     <ClCompile Include="rpc_hwnd.cpp">
       <Filter>Source Files</Filter>
@@ -69,6 +72,12 @@
     <ClCompile Include="dwmaxx_private.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D3D10CreateDevice1.cpp">
+      <Filter>Hooks\d3d10_1</Filter>
+    </ClCompile>
+    <ClCompile Include="DwmExtendFrameIntoClientArea.cpp">
+      <Filter>Hooks\dwmapi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="globals.h">
@@ -86,11 +95,8 @@
     <ClInclude Include="hooking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D3D10CreateDevice1.h">
-      <Filter>Hooks</Filter>
-    </ClInclude>
     <ClInclude Include="ID3D10Device1.h">
-      <Filter>Hooks\ID3D10Device1</Filter>
+      <Filter>Hooks\d3d10_1\ID3D10Device1</Filter>
     </ClInclude>
     <ClInclude Include="rpc_hwnd.h">
       <Filter>Header Files</Filter>
@@ -115,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="dwmaxx_private.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3D10CreateDevice1.h">
+      <Filter>Hooks\d3d10_1</Filter>
+    </ClInclude>
+    <ClInclude Include="DwmExtendFrameIntoClientArea.h">
+      <Filter>Hooks\dwmapi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

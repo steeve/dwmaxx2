@@ -156,6 +156,7 @@
     <ClCompile Include="dwmaxx.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="dwmaxx_private.cpp" />
+    <ClCompile Include="DwmExtendFrameIntoClientArea.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="hooking.cpp" />
     <ClCompile Include="ID3D10Device1_CreateInputLayout.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="dwmaxx.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="dwmaxx_private.h" />
+    <ClInclude Include="DwmExtendFrameIntoClientArea.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="hooking.h" />
     <ClInclude Include="ID3D10Device1.h" />
