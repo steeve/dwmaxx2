@@ -12,10 +12,22 @@
 #pragma comment (lib, "..\\Debug\\dwmaxx32.lib")
 #endif
 
+typedef BOOL (__stdcall *ISPROC)(HWND);
+
 int main(int argc, char **argv)
 {
-    if (DwmaxxIsLoaded() == FALSE)
-        DwmaxxLoad();
+    HWND win = NULL;
+    do
+    {
+        win = FindWindowEx(NULL, win, "Chrome_WidgetWin_0", NULL);
+    } while (GetWindowTextLength(win) == 0);
+
+
+    DwmaxxLoad();
+
+    HANDLE texHandle = DwmaxxGetWindowSharedHandle(win);
+    MARGINS winMargins = DwmaxxGetExtendedWindowMargins(win);
+
     DwmaxxUnload();
     return (0);
 }

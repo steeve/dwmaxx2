@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="D3D10CreateDevice1.cpp" />
     <ClCompile Include="d3d_hooks.cpp" />
+    <ClCompile Include="dwmapi_hooks.cpp" />
     <ClCompile Include="dwmaxx.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="dwmaxx_private.cpp" />
@@ -172,6 +173,8 @@
   <ItemGroup>
     <ClInclude Include="D3D10CreateDevice1.h" />
     <ClInclude Include="d3d_hooks.h" />
+    <ClInclude Include="distorm.h" />
+    <ClInclude Include="dwmapi_hooks.h" />
     <ClInclude Include="dwmaxx.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="dwmaxx_private.h" />

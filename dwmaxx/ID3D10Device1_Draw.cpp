@@ -52,7 +52,15 @@ METHOD_HOOK(void, ID3D10Device1, Draw, UINT VertexCount,
                     dxgiResource->Release();
                     if (SUCCEEDED(hr))
                     {
-                        g_sharedHandles[hWnd] = textureSharedHandle;
+                        //EnterCriticalSection(&g_windowsCS);
+                        DwmaxxWindowEntry *entry = g_windows[hWnd];
+                        if (entry == NULL)
+                        {
+                            entry = new DwmaxxWindowEntry;
+                            g_windows[hWnd] = entry;
+                        }
+                        entry->sharedTextureHandle = textureSharedHandle;
+                        //LeaveCriticalSection(&g_windowsCS);
                         currentTexture->SetPrivateData(WatermarkGuid, (UINT)sizeof(textureSharedHandle), &textureSharedHandle);
 #ifdef _DEBUG
                         char title[1024];

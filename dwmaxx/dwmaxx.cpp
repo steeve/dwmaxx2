@@ -11,7 +11,7 @@
 #include "watermarking.h"
 #include "hooking.h"
 #include "rpc_hwnd.h"
-
+#include <string>
 #pragma comment (lib, "dwmapi.lib")
 
 HRESULT DwmaxxLoad()
@@ -19,6 +19,19 @@ HRESULT DwmaxxLoad()
     HRESULT hr = E_FAIL;
     if (DwmaxxIsLoaded() == TRUE)
         return (E_FAIL);
+
+    char    currentDir[MAX_PATH];
+    char    currentPATH[2048];
+    GetModuleFileName(g_hInstance, currentDir, sizeof(currentDir));
+    PathRemoveFileSpec(currentDir);
+    GetEnvironmentVariable("PATH", currentPATH, sizeof(currentPATH));
+
+    if (StrStr(currentPATH, currentDir) == NULL)
+    {
+        char    newPATH[1024];
+        sprintf(newPATH, "%s;%s", currentDir, currentPATH);
+        SetEnvironmentVariable("PATH", newPATH);
+    }
 
     BOOL    isWow64 = FALSE;
     IsWow64Process(GetCurrentProcess(), &isWow64);
@@ -29,7 +42,7 @@ HRESULT DwmaxxLoad()
         char    fullPath[MAX_PATH];
         PROCESS_INFORMATION pi;
         STARTUPINFO         si;
-        GetModuleFileName(g_hInstance, currentDir, sizeof(fullPath));
+        GetModuleFileName(g_hInstance, currentDir, sizeof(currentDir));
         PathRemoveFileSpec(currentDir);
         GetSystemDirectory(systemDir, sizeof(systemDir));
         sprintf(fullPath, "%s\\rundll32.exe %s\\dwmaxx64.dll,DwmaxxInject", systemDir, currentDir);
@@ -87,4 +100,19 @@ void    DwmaxxGetWindowSharedHandleAsync(HWND hWnd, HWND callbackHwnd)
 void    DwmaxxRemoveWindow(HWND hWnd)
 {
     PostMessage(DwmaxxRpcWindow(), DWMAXX_REMOVE_WINDOW, (WPARAM)hWnd, NULL);
+}
+
+MARGINS DwmaxxGetExtendedWindowMargins(HWND hWnd)
+{
+    MARGINS margins;
+    
+    LRESULT topLeft = SendMessage(DwmaxxRpcWindow(), DWMAXX_GETAREATOPLEFT , (WPARAM)hWnd, NULL);
+    LRESULT bottomRight = SendMessage(DwmaxxRpcWindow(), DWMAXX_GETAREABOTTOMRIGHT, (WPARAM)hWnd, NULL);
+
+    margins.cyTopHeight = (topLeft >> 16) & 0xFFFF;
+    margins.cxLeftWidth = topLeft & 0xFFFF;
+    margins.cyBottomHeight = (bottomRight >> 16) & 0xFFFF;
+    margins.cxRightWidth = bottomRight & 0xFFFF;
+
+    return (margins);
 }

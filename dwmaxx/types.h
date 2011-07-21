@@ -2,8 +2,9 @@
 #include <Windows.h>
 #include <d3d10_1.h>
 #include <D3DX10.h>
+#include <dwmapi.h>
 
-typedef BOOL    (*ISTOPLEVELWINDOW_PROC)(HWND hWnd);
+typedef BOOL    (WINAPI *ISTOPLEVELWINDOW_PROC)(HWND hWnd);
 
 typedef union
 {
@@ -36,3 +37,10 @@ typedef union
     };
     DWORD   color;
 } DWMWindowPixel;
+
+typedef struct
+{
+    HWND    hWnd;
+    HANDLE  sharedTextureHandle;
+    MARGINS dwmMargins;
+} DwmaxxWindowEntry;

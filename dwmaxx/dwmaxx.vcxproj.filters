@@ -78,6 +78,9 @@
     <ClCompile Include="DwmExtendFrameIntoClientArea.cpp">
       <Filter>Hooks\dwmapi</Filter>
     </ClCompile>
+    <ClCompile Include="dwmapi_hooks.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="globals.h">
@@ -127,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="DwmExtendFrameIntoClientArea.h">
       <Filter>Hooks\dwmapi</Filter>
+    </ClInclude>
+    <ClInclude Include="distorm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dwmapi_hooks.h">
+      <Filter>Hooks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ HOOK(HRESULT, D3D10CreateDevice1, IDXGIAdapter *pAdapter,
     HRESULT result = __D3D10CreateDevice1(pAdapter, DriverType, Software, Flags, HardwareLevel, SDKVersion, ppDevice);
 
 #ifdef _DEBUG
-    printf("New D3D device! Patching...\n");
+    printf("New D3D device! Patching... 0x%I64X\n", *ppDevice);
 #endif
     ApplyD3DHooks(*ppDevice);
 #ifdef _DEBUG
