@@ -4,7 +4,18 @@
 #include <D3DX10.h>
 #include <dwmapi.h>
 
-typedef BOOL    (WINAPI *ISTOPLEVELWINDOW_PROC)(HWND hWnd);
+typedef struct _LOCAL_HOOK_INFO_* PLOCAL_HOOK_INFO;
+
+typedef struct _HOOK_TRACE_INFO_
+{
+    PLOCAL_HOOK_INFO        Link;
+}HOOK_TRACE_INFO, *TRACED_HOOK_HANDLE;
+
+typedef BOOL        (WINAPI *ISTOPLEVELWINDOW_PROC)(HWND hWnd);
+typedef NTSTATUS    (WINAPI *LHINSTALLHOOK_PROC)(void* InEntryPoint, void* InHookProc, void* InCallback, TRACED_HOOK_HANDLE OutHandle);
+typedef NTSTATUS    (WINAPI *LHUNINSTALLALLHOOKS_PROC)();
+typedef NTSTATUS    (WINAPI *LHUNINSTALLHOOK_PROC)(TRACED_HOOK_HANDLE InHandle);
+typedef NTSTATUS    (WINAPI *LHSETEXCLUSIVEACL_PROC)(ULONG* InProcessIdList, ULONG InProcessCount, TRACED_HOOK_HANDLE InHandle);
 
 typedef union
 {

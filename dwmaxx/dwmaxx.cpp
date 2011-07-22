@@ -20,19 +20,6 @@ HRESULT DwmaxxLoad()
     if (DwmaxxIsLoaded() == TRUE)
         return (E_FAIL);
 
-    char    currentDir[MAX_PATH];
-    char    currentPATH[2048];
-    GetModuleFileName(g_hInstance, currentDir, sizeof(currentDir));
-    PathRemoveFileSpec(currentDir);
-    GetEnvironmentVariable("PATH", currentPATH, sizeof(currentPATH));
-
-    if (StrStr(currentPATH, currentDir) == NULL)
-    {
-        char    newPATH[1024];
-        sprintf(newPATH, "%s;%s", currentDir, currentPATH);
-        SetEnvironmentVariable("PATH", newPATH);
-    }
-
     BOOL    isWow64 = FALSE;
     IsWow64Process(GetCurrentProcess(), &isWow64);
     if (isWow64 == TRUE)

@@ -6,15 +6,7 @@
 #include "dwmaxx.h"
 #include "injection.h"
 #include "dwmapi_hooks.h"
-#include "..\\easyhook\\easyhook.h"
 
-#ifdef _WIN64
-#pragma comment (lib, "..\\easyhook\\EasyHook64.lib")
-#else
-#pragma comment (lib, "..\\easyhook\\EasyHook32.lib")
-#endif
-
-char    PATH[1024];
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
@@ -30,7 +22,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
     case DLL_PROCESS_DETACH:
         if (DwmaxxIsRunningInsideDWM() == FALSE)
             dwmapi_RemoveHooks();
-        LhUninstallAllHooks();
         break;
 	}
 

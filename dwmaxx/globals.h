@@ -17,3 +17,11 @@ extern HHOOK                                g_shellHook;
 extern PROCESS_INFORMATION                  g_watermarker32;
 extern PROCESS_INFORMATION                  g_watermarker64;
 extern CRITICAL_SECTION                     g_windowsCS;
+
+extern HMODULE                              g_hEasyHook;
+extern LHINSTALLHOOK_PROC                   LhInstallHook;
+extern LHUNINSTALLHOOK_PROC                 LhUninstallHook;
+extern LHUNINSTALLALLHOOKS_PROC             LhUninstallAllHooks;
+extern LHSETEXCLUSIVEACL_PROC               LhSetExclusiveACL;
+
+extern HOOK_TRACE_INFO                      *g_dwmHook;

@@ -142,5 +142,11 @@
     <None Include="dwmaxx.def">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="load.bat">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="unload.bat">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

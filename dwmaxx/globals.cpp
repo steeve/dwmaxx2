@@ -15,6 +15,14 @@ PROCESS_INFORMATION                 g_watermarker32 = { NULL, NULL, NULL, NULL }
 PROCESS_INFORMATION                 g_watermarker64 = { NULL, NULL, NULL, NULL };
 CRITICAL_SECTION                    g_windowsCS;
 
+HMODULE                             g_hEasyHook = NULL;
+LHINSTALLHOOK_PROC                  LhInstallHook = NULL;
+LHUNINSTALLHOOK_PROC                LhUninstallHook = NULL;
+LHUNINSTALLALLHOOKS_PROC            LhUninstallAllHooks = NULL;
+LHSETEXCLUSIVEACL_PROC              LhSetExclusiveACL = NULL;
+
+HOOK_TRACE_INFO                     *g_dwmHook = NULL;
+
 #pragma data_seg(".SHRDATA")
 HHOOK                               g_wndProcHook = NULL;
 HHOOK                               g_wndProcRetHook = NULL;
