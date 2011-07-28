@@ -23,11 +23,11 @@ int main(int argc, char **argv)
     } while (GetWindowTextLength(win) == 0);
 
 
-    DwmaxxLoad();
+    //DwmaxxLoad();
 
     HANDLE texHandle = DwmaxxGetWindowSharedHandle(win);
     MARGINS winMargins = DwmaxxGetExtendedWindowMargins(win);
 
-    DwmaxxUnload();
+    //DwmaxxUnload();
     return (0);
 }

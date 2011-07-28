@@ -49,8 +49,18 @@ typedef union
     DWORD   color;
 } DWMWindowPixel;
 
-typedef struct
+typedef struct _DwmaxxWindowEntry
 {
+    _DwmaxxWindowEntry()
+    {
+        this->hWnd = NULL;
+        this->sharedTextureHandle = NULL;
+        this->dwmMargins.cxLeftWidth = 0;
+        this->dwmMargins.cxRightWidth = 0;
+        this->dwmMargins.cyBottomHeight = 0;
+        this->dwmMargins.cyTopHeight = 0;
+    }
+
     HWND    hWnd;
     HANDLE  sharedTextureHandle;
     MARGINS dwmMargins;
