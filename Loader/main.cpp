@@ -19,15 +19,16 @@ int main(int argc, char **argv)
     HWND win = NULL;
     do
     {
-        win = FindWindowEx(NULL, win, "Chrome_WidgetWin_0", NULL);
+        win = FindWindowEx(NULL, win, "CabinetWClass", NULL);
     } while (GetWindowTextLength(win) == 0);
 
 
-    //DwmaxxLoad();
+    HRESULT hr;
+    HANDLE texHandle;
+    MARGINS winMargins;
 
-    HANDLE texHandle = DwmaxxGetWindowSharedHandle(win);
-    MARGINS winMargins = DwmaxxGetExtendedWindowMargins(win);
+    hr = DwmaxxGetWindowSharedHandle(win, &texHandle);
+    hr = DwmaxxGetExtendedWindowMargins(win, &winMargins);
 
-    //DwmaxxUnload();
     return (0);
 }

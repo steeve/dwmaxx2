@@ -27,4 +27,5 @@ HOOK_TRACE_INFO                     *g_dwmHook = NULL;
 HHOOK                               g_wndProcHook = NULL;
 HHOOK                               g_wndProcRetHook = NULL;
 HHOOK                               g_shellHook = NULL;
+HHOOK                               g_cbtHook = NULL;
 #pragma data_seg()

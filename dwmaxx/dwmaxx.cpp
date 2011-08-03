@@ -74,9 +74,13 @@ BOOL    DwmaxxIsLoaded()
     return (DwmaxxIsInjected());
 }
 
-HANDLE  DwmaxxGetWindowSharedHandle(HWND hWnd)
+HRESULT  DwmaxxGetWindowSharedHandle(HWND hWnd, HANDLE *sharedHandle)
 {
-    return (HANDLE)SendMessage(DwmaxxRpcWindow(), DWMAXX_GET_SHARED_HANDLE, (WPARAM)hWnd, NULL);
+    HANDLE hTmp = (HANDLE)SendMessage(DwmaxxRpcWindow(), DWMAXX_GET_SHARED_HANDLE, (WPARAM)hWnd, NULL);
+    if (hTmp == NULL)
+        return (E_FAIL);
+    *sharedHandle = hTmp;
+    return (S_OK);
 }
 
 void    DwmaxxGetWindowSharedHandleAsync(HWND hWnd, HWND callbackHwnd)
@@ -89,17 +93,20 @@ void    DwmaxxRemoveWindow(HWND hWnd)
     PostMessage(DwmaxxRpcWindow(), DWMAXX_REMOVE_WINDOW, (WPARAM)hWnd, NULL);
 }
 
-MARGINS DwmaxxGetExtendedWindowMargins(HWND hWnd)
+HRESULT DwmaxxGetExtendedWindowMargins(HWND hWnd, MARGINS *margins)
 {
-    MARGINS margins;
+    SendMessage(hWnd, WM_DWMCOMPOSITIONCHANGED, NULL, NULL);
     
     LRESULT topLeft = SendMessage(DwmaxxRpcWindow(), DWMAXX_GETAREATOPLEFT , (WPARAM)hWnd, NULL);
     LRESULT bottomRight = SendMessage(DwmaxxRpcWindow(), DWMAXX_GETAREABOTTOMRIGHT, (WPARAM)hWnd, NULL);
 
-    margins.cyTopHeight = (topLeft >> 16) & 0xFFFF;
-    margins.cxLeftWidth = topLeft & 0xFFFF;
-    margins.cyBottomHeight = (bottomRight >> 16) & 0xFFFF;
-    margins.cxRightWidth = bottomRight & 0xFFFF;
+    if (topLeft == 0xFFFFFFFF && bottomRight == 0xFFFFFFFF)
+        return (E_FAIL);
 
-    return (margins);
+    margins->cyTopHeight = (topLeft >> 16) & 0xFFFF;
+    margins->cxLeftWidth = topLeft & 0xFFFF;
+    margins->cyBottomHeight = (bottomRight >> 16) & 0xFFFF;
+    margins->cxRightWidth = bottomRight & 0xFFFF;
+
+    return (S_OK);
 }

@@ -11,6 +11,7 @@ void    DwmaxxInstallHooks()
     g_wndProcHook = SetWindowsHookEx(WH_CALLWNDPROC, WndProcProlog, g_hInstance, 0);
     g_wndProcRetHook = SetWindowsHookEx(WH_CALLWNDPROCRET, WndProcEpilog, g_hInstance, 0);
     g_shellHook = SetWindowsHookEx(WH_SHELL, ShellProcProlog, g_hInstance, 0);
+    g_cbtHook = SetWindowsHookEx(WH_CBT, CBTProc, g_hInstance, 0);
 }
 
 void    DwmaxxRemoveHooks()
@@ -18,6 +19,7 @@ void    DwmaxxRemoveHooks()
     UnhookWindowsHookEx(g_wndProcHook);
     UnhookWindowsHookEx(g_wndProcRetHook);
     UnhookWindowsHookEx(g_shellHook);
+    UnhookWindowsHookEx(g_cbtHook);
 }
 
 LRESULT CALLBACK WndProcProlog(int nCode, WPARAM wParam, LPARAM lParam)
@@ -43,6 +45,10 @@ LRESULT CALLBACK WndProcProlog(int nCode, WPARAM wParam, LPARAM lParam)
             if (IsWindowVisible(msg->hwnd))
                 WriteWatermark(msg->hwnd);
             break;
+        default:
+            if (IsWindowVisible(msg->hwnd))
+                WriteWatermark(msg->hwnd);
+            break;
         }
     }
 
@@ -61,7 +67,11 @@ LRESULT CALLBACK WndProcEpilog(int nCode, WPARAM wParam, LPARAM lParam)
         case WM_NCPAINT:
         case WM_PAINT:
             if (IsWindowVisible(msg->hwnd) == TRUE)
-                WriteWatermark(msg->hwnd);
+//                WriteWatermark(msg->hwnd);
+            break;
+        default:
+            if (IsWindowVisible(msg->hwnd))
+//                WriteWatermark(msg->hwnd);
             break;
         }
     }
@@ -73,6 +83,8 @@ LRESULT CALLBACK ShellProcProlog(int nCode, WPARAM wParam, LPARAM lParam)
 {
     switch (nCode)
     {
+    case HSHELL_REDRAW:
+    case HSHELL_WINDOWACTIVATED:
     case HSHELL_WINDOWREPLACED:
     case HSHELL_WINDOWCREATED:
         if (IsTopLevelWindow((HWND)wParam) == TRUE && IsWindowVisible((HWND)wParam) == TRUE)
@@ -85,4 +97,19 @@ LRESULT CALLBACK ShellProcProlog(int nCode, WPARAM wParam, LPARAM lParam)
     }
 
     return CallNextHookEx(g_shellHook, nCode, wParam, lParam);
+}
+
+LRESULT CALLBACK CBTProc(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    switch (nCode)
+    {
+    case HCBT_ACTIVATE:
+    case HCBT_CREATEWND:
+    case HCBT_SETFOCUS:
+        if (IsTopLevelWindow((HWND)wParam) == TRUE && IsWindowVisible((HWND)wParam) == TRUE)
+            WriteWatermark((HWND)wParam);
+        break;
+    }
+
+    return CallNextHookEx(g_cbtHook, nCode, wParam, lParam);
 }

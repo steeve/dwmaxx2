@@ -14,6 +14,7 @@ extern ISTOPLEVELWINDOW_PROC                IsTopLevelWindow;
 extern HHOOK                                g_wndProcHook;
 extern HHOOK                                g_wndProcRetHook;
 extern HHOOK                                g_shellHook;
+extern HHOOK                                g_cbtHook;
 extern PROCESS_INFORMATION                  g_watermarker32;
 extern PROCESS_INFORMATION                  g_watermarker64;
 extern CRITICAL_SECTION                     g_windowsCS;

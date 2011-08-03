@@ -10,7 +10,6 @@
 HOOK(HRESULT, DwmExtendFrameIntoClientArea, HWND hWnd,
                                             const MARGINS *pMarInset)
 {
-    //PostMessage(DwmaxxRpcWindow(), DWMAXX_SETAREATOPLEFT, (WPARAM)hWnd, NULL);
     if (pMarInset != NULL)
     {
         PostMessage(DwmaxxRpcWindow(), DWMAXX_SETAREATOPLEFT, (WPARAM)hWnd, (((pMarInset->cyTopHeight & 0xFFFF) << 16)

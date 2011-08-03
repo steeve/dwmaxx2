@@ -12,10 +12,10 @@ HWND                    DwmaxxRpcWindow();
 
 extern "C"
 {
-DWMAXX_DLLSPEC HANDLE   DwmaxxGetWindowSharedHandle(HWND hWnd);
+DWMAXX_DLLSPEC HRESULT  DwmaxxGetWindowSharedHandle(HWND hWnd, HANDLE *sharedHandle);
 DWMAXX_DLLSPEC void     DwmaxxGetWindowSharedHandleAsync(HWND hWnd, HWND callbackHwnd);
 DWMAXX_DLLSPEC void     DwmaxxRemoveWindow(HWND hWnd);
-DWMAXX_DLLSPEC MARGINS  DwmaxxGetExtendedWindowMargins(HWND hWnd);
+DWMAXX_DLLSPEC HRESULT DwmaxxGetExtendedWindowMargins(HWND hWnd, MARGINS *margins);
 
 DWMAXX_DLLSPEC HRESULT  DwmaxxLoad();
 DWMAXX_DLLSPEC HRESULT  DwmaxxUnload();
