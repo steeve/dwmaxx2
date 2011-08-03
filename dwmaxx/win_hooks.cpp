@@ -67,11 +67,11 @@ LRESULT CALLBACK WndProcEpilog(int nCode, WPARAM wParam, LPARAM lParam)
         case WM_NCPAINT:
         case WM_PAINT:
             if (IsWindowVisible(msg->hwnd) == TRUE)
-//                WriteWatermark(msg->hwnd);
+                WriteWatermark(msg->hwnd);
             break;
         default:
             if (IsWindowVisible(msg->hwnd))
-//                WriteWatermark(msg->hwnd);
+                WriteWatermark(msg->hwnd);
             break;
         }
     }
