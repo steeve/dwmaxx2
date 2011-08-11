@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dwmaxx", "dwmaxx\dwmaxx.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LivePreview", "LivePreview\LivePreview.vcxproj", "{C80DC989-67C8-4C03-8936-0475446E7B3C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dwmaxx32", "dwmaxx\dwmaxx32.vcxproj", "{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dwmaxx64", "dwmaxx\dwmaxx64.vcxproj", "{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -57,6 +61,25 @@ Global
 		{C80DC989-67C8-4C03-8936-0475446E7B3C}.Release|Win32.Build.0 = Release|Win32
 		{C80DC989-67C8-4C03-8936-0475446E7B3C}.Release|x64.ActiveCfg = Release|x64
 		{C80DC989-67C8-4C03-8936-0475446E7B3C}.Release|x64.Build.0 = Release|x64
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Debug|Win32.Build.0 = Debug|Win32
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Debug|x64.ActiveCfg = Debug|Win32
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Debug|x64.Build.0 = Debug|Win32
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Profile|Win32.ActiveCfg = Release|Win32
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Profile|Win32.Build.0 = Release|Win32
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Profile|x64.ActiveCfg = Release|Win32
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Release|Win32.ActiveCfg = Release|Win32
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Release|Win32.Build.0 = Release|Win32
+		{1F13AD56-2DCC-4BCF-ABDF-381B901C9440}.Release|x64.ActiveCfg = Release|Win32
+		{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}.Debug|Win32.ActiveCfg = Debug|x64
+		{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}.Debug|x64.ActiveCfg = Debug|x64
+		{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}.Debug|x64.Build.0 = Debug|x64
+		{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}.Profile|Win32.ActiveCfg = Release|x64
+		{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}.Profile|x64.ActiveCfg = Release|x64
+		{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}.Profile|x64.Build.0 = Release|x64
+		{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}.Release|Win32.ActiveCfg = Release|x64
+		{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}.Release|x64.ActiveCfg = Release|x64
+		{3026FEA5-125A-49C4-B7CA-4A93F5F0978F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
