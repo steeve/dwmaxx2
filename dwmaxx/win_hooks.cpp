@@ -22,34 +22,38 @@ void    DwmaxxRemoveHooks()
     UnhookWindowsHookEx(g_cbtHook);
 }
 
+BOOL    IsWindowWatermarkable(HWND hWnd)
+{
+    return (IsTopLevelWindow(hWnd) == TRUE
+            && IsWindowVisible(hWnd) == TRUE
+            && IsIconic(hWnd) == FALSE);
+}
+
 LRESULT CALLBACK WndProcProlog(int nCode, WPARAM wParam, LPARAM lParam)
 {
     CWPSTRUCT       *msg = (CWPSTRUCT *)lParam;
 
-    if (IsTopLevelWindow(msg->hwnd) == TRUE)
+    switch (msg->message)
     {
-        switch (msg->message)
-        {
-        case WM_SHOWWINDOW:
-            if ((BOOL)msg->wParam == FALSE)
-                DwmaxxRemoveWindow((HWND)msg->hwnd);
-            else if (IsWindowVisible(msg->hwnd))
+    case WM_SHOWWINDOW:
+        if ((BOOL)msg->wParam == FALSE)
+            DwmaxxRemoveWindow((HWND)msg->hwnd);
+        else if (IsWindowWatermarkable(msg->hwnd))
+            WriteWatermark(msg->hwnd);
+        break;
+    case WM_SIZE:
+        if (msg->wParam == SIZE_MAXIMIZED)
+            if (IsWindowWatermarkable(msg->hwnd))
                 WriteWatermark(msg->hwnd);
-            break;
-        case WM_SIZE:
-            if (msg->wParam == SIZE_MINIMIZED || msg->wParam == SIZE_MAXIMIZED)
-                if (IsWindowVisible(msg->hwnd))
-                    WriteWatermark(msg->hwnd);
-            break;
-        case WM_EXITSIZEMOVE:
-            if (IsWindowVisible(msg->hwnd))
-                WriteWatermark(msg->hwnd);
-            break;
-        default:
-            if (IsWindowVisible(msg->hwnd))
-                WriteWatermark(msg->hwnd);
-            break;
-        }
+        break;
+    case WM_EXITSIZEMOVE:
+        if (IsWindowWatermarkable(msg->hwnd))
+            WriteWatermark(msg->hwnd);
+        break;
+    default:
+        if (IsWindowWatermarkable(msg->hwnd))
+            WriteWatermark(msg->hwnd);
+        break;
     }
 
     return CallNextHookEx(g_wndProcHook, nCode, wParam, lParam);
@@ -60,20 +64,17 @@ LRESULT CALLBACK WndProcEpilog(int nCode, WPARAM wParam, LPARAM lParam)
 {
     CWPRETSTRUCT    *msg = (CWPRETSTRUCT *)lParam;
 
-    if (IsTopLevelWindow(msg->hwnd) == TRUE)
+    switch (msg->message)
     {
-        switch (msg->message)
-        {
-        case WM_NCPAINT:
-        case WM_PAINT:
-            if (IsWindowVisible(msg->hwnd) == TRUE)
-                WriteWatermark(msg->hwnd);
-            break;
-        default:
-            if (IsWindowVisible(msg->hwnd))
-                WriteWatermark(msg->hwnd);
-            break;
-        }
+    case WM_NCPAINT:
+    case WM_PAINT:
+        if (IsWindowWatermarkable(msg->hwnd))
+            WriteWatermark(msg->hwnd);
+        break;
+    default:
+        if (IsWindowWatermarkable(msg->hwnd))
+            WriteWatermark(msg->hwnd);
+        break;
     }
 
     return CallNextHookEx(g_wndProcRetHook, nCode, wParam, lParam);
@@ -87,7 +88,7 @@ LRESULT CALLBACK ShellProcProlog(int nCode, WPARAM wParam, LPARAM lParam)
     case HSHELL_WINDOWACTIVATED:
     case HSHELL_WINDOWREPLACED:
     case HSHELL_WINDOWCREATED:
-        if (IsTopLevelWindow((HWND)wParam) == TRUE && IsWindowVisible((HWND)wParam) == TRUE)
+        if (IsWindowWatermarkable((HWND)wParam))
             WriteWatermark((HWND)wParam);
         break;
     case HSHELL_WINDOWDESTROYED:
@@ -106,7 +107,7 @@ LRESULT CALLBACK CBTProc(int nCode, WPARAM wParam, LPARAM lParam)
     case HCBT_ACTIVATE:
     case HCBT_CREATEWND:
     case HCBT_SETFOCUS:
-        if (IsTopLevelWindow((HWND)wParam) == TRUE && IsWindowVisible((HWND)wParam) == TRUE)
+        if (IsWindowWatermarkable((HWND)wParam))
             WriteWatermark((HWND)wParam);
         break;
     }
